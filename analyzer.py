@@ -1,4 +1,7 @@
 import pandas as pd
+import logging
+logger = logging.getLogger(__name__)
+
 
 data = pd.read_csv("data/telemetry.csv")
 #print(data)
@@ -20,14 +23,21 @@ def check_limits():
         dataLowerMin = data[data[i] < limits[i][0]]
 
         for index, row in dataPastMax.iterrows():
-            print(f"[ANOMALY] timestamp {row['timestamp']} | {i} = {row[i]} | exceeds max of {limits[i][1]}")
+            logger.warning(f"[ANOMALY] timestamp {row['timestamp']} | {i} = {row[i]} | exceeds max of {limits[i][1]}")
         for index, row in dataLowerMin.iterrows():
-            print(f"[ANOMALY] timestamp {row['timestamp']} | {i} = {row[i]} | exceeds min of {limits[i][0]}")
+            logger.warning(f"[ANOMALY] timestamp {row['timestamp']} | {i} = {row[i]} | exceeds min of {limits[i][0]}")
         
 
 
 def main():
+    logging.basicConfig(
+    filename='analyzer.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S')
+    logger.info('Started')
     check_limits()
+    logger.info('Finished')
 
 if __name__ == "__main__":
     main()
