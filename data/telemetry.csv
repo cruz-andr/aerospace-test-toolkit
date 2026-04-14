@@ -1,4 +1,4 @@
-timestamp,pressure_psi,temperature_c, voltage_v,current_a
+timestamp,pressure_psi,temperature_c,voltage_v,current_a
 1,100,22,28,5
 2,102,24,28,4.763181963
 3,102,22,29,5.124350484
