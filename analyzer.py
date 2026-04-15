@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 import logging
 logger = logging.getLogger(__name__)
 
@@ -27,6 +28,18 @@ def check_limits():
         for index, row in dataLowerMin.iterrows():
             logger.warning(f"[ANOMALY] timestamp {row['timestamp']} | {i} = {row[i]} | exceeds min of {limits[i][0]}")
         
+def channel_plotter():
+    fig, axs = plt.subplots(nrows=4, ncols=1)
+    for index, value in enumerate(limits):
+        axs[index].plot(data["timestamp"],data[value])
+        axs[index].set_ylabel(value)
+        axs[index].axhline(limits[value][0],color='red', linestyle=':', label = f'max threshold = {limits[value][1]}')
+        axs[index].axhline(limits[value][1],color='red', linestyle=':', label = f'min threshold = {limits[value][0]}')
+        axs[index].legend()
+    plt.xlabel("timestamp")
+    plt.tight_layout()
+    plt.savefig('report/channel_plot.png')
+    plt.show()
 
 
 def main():
@@ -37,6 +50,7 @@ def main():
     datefmt='%Y-%m-%d %H:%M:%S')
     logger.info('Started')
     check_limits()
+    channel_plotter()
     logger.info('Finished')
 
 if __name__ == "__main__":

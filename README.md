@@ -16,7 +16,7 @@ pip install -r requirements.txt
 python analyzer.py
 ```
 
-## Output
+### Output
 ```
 2026-04-14 18:05:47 - INFO - Started
 2026-04-14 18:05:47 - WARNING - [ANOMALY] timestamp 15.0 | pressure_psi = 130.0 | exceeds max of 105
