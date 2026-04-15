@@ -1,6 +1,6 @@
 # Aerospace Test Tool Kit
 
-This is a tool kit for testing and integrations for me to learn these libraries:
+This is a tool kit for testing and integrations:
 - pandas
 - matplotlib
 
@@ -12,11 +12,16 @@ This is a tool that can take a csv of telemetry data with timestamp,pressure_psi
 ```
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 python analyzer.py
 ```
 
-### Steps taken
-1. Begin to understand first principles of fluctuations and data as well as the importance of fault isolation
-2. Created a csv with peaks and dips
-3. Understood how pandas extracts data from a csv
-4. Print a filtered DataFrame 
+## Output
+```
+2026-04-14 18:05:47 - INFO - Started
+2026-04-14 18:05:47 - WARNING - [ANOMALY] timestamp 15.0 | pressure_psi = 130.0 | exceeds max of 105
+2026-04-14 18:05:47 - WARNING - [ANOMALY] timestamp 17.0 | temperature_c = 12.0 | exceeds min of 19.5
+2026-04-14 18:05:47 - WARNING - [ANOMALY] timestamp 28.0 | voltage_v = 40.0 | exceeds max of 30.5
+2026-04-14 18:05:47 - WARNING - [ANOMALY] timestamp 9.0 | current_a = 3.0 | exceeds min of 4.5
+2026-04-14 18:05:47 - INFO - Finished
+```
