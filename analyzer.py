@@ -1,11 +1,9 @@
+from io import StringIO
+import receiver
 import pandas as pd
 import matplotlib.pyplot as plt
 import logging
 logger = logging.getLogger(__name__)
-
-
-data = pd.read_csv("data/telemetry.csv")
-#print(data)
 
 #pressure_psi: min 95, max 105
 #temperature_c: min 19.5, max 25.5
@@ -17,11 +15,12 @@ limits = {"pressure_psi": [95, 105],
           "current_a" : [4.5, 5.5]}
 
 
+
 #example of print => [ANOMALY] timestamp 15 | pressure_psi = 130 | exceeds max of 105
-def check_limits():
+def check_limits(df):
     for i in limits:
-        dataPastMax = data[data[i] > limits[i][1]]
-        dataLowerMin = data[data[i] < limits[i][0]]
+        dataPastMax = df[df[i] > limits[i][1]]
+        dataLowerMin = df[df[i] < limits[i][0]]
 
         for index, row in dataPastMax.iterrows():
             logger.warning(f"[ANOMALY] timestamp {row['timestamp']} | {i} = {row[i]} | exceeds max of {limits[i][1]}")
@@ -49,7 +48,7 @@ def main():
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S')
     logger.info('Started')
-    check_limits()
+    #check_limits()
     channel_plotter()
     logger.info('Finished')
 
