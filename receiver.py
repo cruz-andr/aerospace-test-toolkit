@@ -8,18 +8,21 @@ column_names = ["timestamp","pressure_psi","temperature_c","voltage_v","current_
 
 def read_telemetry():
     ser = serial.Serial('/dev/ttys005', 9600, timeout=5)
-    while True:
-        line = ser.readline()
-        if line:
-            decoded = line.decode()
-            values = decoded.strip().split(",")
-            values = [float(v) for v in values]
-            row_dict = dict(zip(column_names, values))
-            df = pd.DataFrame([row_dict])
-            analyzer.check_limits(df)
-        else:
-            break
-    ser.close()
+    try:
+        while True:
+            line = ser.readline()
+            if line:
+                decoded = line.decode()
+                values = decoded.strip().split(",")
+                values = [float(v) for v in values]
+                row_dict = dict(zip(column_names, values))
+                df = pd.DataFrame([row_dict])
+                yield df
+                #analyzer.check_limits(df)
+            else:
+                break
+    finally:
+        ser.close()
 
 def main():
     logging.basicConfig(
