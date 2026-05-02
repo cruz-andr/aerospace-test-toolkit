@@ -28,8 +28,8 @@ def run_test():
         elif state == TestState.RUNNING:
             if analyzer.check_limits(row):
                 state = TestState.HALT
+                logger.warning(f"[HALT]| Test was halted at timestamp: {row['timestamp'].iloc[0]}")
         elif state == TestState.HALT:
-           logger.warning(f"[HALT]| Test was halted at timestamp: {row['timestamp']}")
            state = TestState.TEARDOWN    
         elif state == TestState.TEARDOWN:
             full_df = pd.concat(history, ignore_index=True)
